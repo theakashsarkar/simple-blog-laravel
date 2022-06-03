@@ -25,7 +25,13 @@ Route::get('/',[welcomeController::class,'index'])->name('index');
 Route::get('/blog',[BlogController::class,'index'])->name('blog');
 
 // To create blog post
-Route::get('/blog/create',[BlogController::class,'create'])->name('blog.create');
+Route::get('/blog/create',[BlogController::class,'create'])->name('blog.create')->middleware('auth');
+
+// To edit blog post
+Route::get('/blog/{post}/edit',[BlogController::class,'edit'])->name('blog.edit');
+
+// To Update single blog post
+Route::put('/blog/{post}/update',[BlogController::class,'update'])->name('blog.update');
 
 // To single blog post
 Route::get('/blog/{post:slug}',[BlogController::class,'show'])->name('blog.show');

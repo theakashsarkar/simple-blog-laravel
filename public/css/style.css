@@ -180,6 +180,26 @@ footer small {
   display: inline-block;
   margin: 2px 0;
 }
+/* Edit button */
+.class-buttons{
+  display: flex;
+}
+.class-buttons a{
+  margin-right:10px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding:10px 10px;
+  margin-bottom: 5px;
+}
+.class-buttons input{
+  background-color: red;
+  color: white;
+  font-size: 16px;
+  padding:10px 10px;
+  border: none;
+  cursor: pointer;
+}
 /* Blog Styles */
 
 .searchbar {

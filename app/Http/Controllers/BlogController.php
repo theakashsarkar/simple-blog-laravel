@@ -9,6 +9,10 @@ use App\Models\Post;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+    }
     public function index()
     {
         $posts = Post::latest()->get();
@@ -56,5 +60,40 @@ class BlogController extends Controller
     public function show(Post $post)
     {
         return view('blogPost.singleBlogPost',compact('post'));
+    }
+
+    // blog edit function create
+    public function edit(Post $post)
+    {
+        return view('blogPost.editBlogPost',compact('post'));
+    }
+
+    // blog update function create
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required | image',
+            'body'  => 'required',
+        ]);
+        $title = $request->input('title');
+
+        $postId = $post->id;
+        $slug   = Str::slug($title,'-').'-'.$postId;
+        $user_id = Auth::user()->id;
+        $body   = $request->input('body');
+
+        //File Upload
+        $imagePath = 'storage/'. $request->file('image')->store('postsImage', 'public');
+
+        $post = new Post();
+        $post->title = $title;
+        $post->slug  = $slug;
+        $post->user_id = $user_id;
+        $post->body = $body;
+        $post->imagePath = $imagePath;
+
+        $post->save();
+        return redirect()->back()->with('status','update successfully');
     }
 }
