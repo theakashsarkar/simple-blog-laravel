@@ -11,11 +11,19 @@ class BlogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('auth')->except(['index','show']);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->get();
+        if($request->search)
+        {
+            $posts = Post::where('title' , 'like' , '%' . $request->search . '%' )
+            ->orWhere('body','like', '%' . $request->serach . '%')->latest()->get();
+        }
+        else
+        {
+            $posts = Post::latest()->get();
+        }
         return view('blogPost.blog',compact('posts'));
     }
 
@@ -65,12 +73,20 @@ class BlogController extends Controller
     // blog edit function create
     public function edit(Post $post)
     {
+        if(auth()->user()->id !== $post->user->id)
+        {
+            abort(403);
+        }
         return view('blogPost.editBlogPost',compact('post'));
     }
 
     // blog update function create
     public function update(Request $request, Post $post)
     {
+        if(auth()->user()->id !== $post->user->id)
+        {
+            abort(403);
+        }
         $request->validate([
             'title' => 'required',
             'image' => 'required | image',
@@ -80,20 +96,23 @@ class BlogController extends Controller
 
         $postId = $post->id;
         $slug   = Str::slug($title,'-').'-'.$postId;
-        $user_id = Auth::user()->id;
         $body   = $request->input('body');
 
         //File Upload
         $imagePath = 'storage/'. $request->file('image')->store('postsImage', 'public');
 
-        $post = new Post();
         $post->title = $title;
         $post->slug  = $slug;
-        $post->user_id = $user_id;
         $post->body = $body;
         $post->imagePath = $imagePath;
 
         $post->save();
-        return redirect()->back()->with('status','update successfully');
+        return redirect()->back()->with('status','post edit successfully');
     }
+    public function delete(Post $post)
+    {
+        $post->delete();
+        return redirect()->back()->with('status','Post delete successfully');
+    }
+
 }

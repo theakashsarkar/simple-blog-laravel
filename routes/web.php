@@ -33,6 +33,9 @@ Route::get('/blog/{post}/edit',[BlogController::class,'edit'])->name('blog.edit'
 // To Update single blog post
 Route::put('/blog/{post}/update',[BlogController::class,'update'])->name('blog.update');
 
+// To delete single blog post
+Route::delete('/blog/{post}',[BlogController::class,'delete'])->name('blog.delete');
+
 // To single blog post
 Route::get('/blog/{post:slug}',[BlogController::class,'show'])->name('blog.show');
 

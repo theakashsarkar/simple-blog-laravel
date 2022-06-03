@@ -7,7 +7,7 @@
                 <p>{{session('status')}}</p>
             @endif
             <div class="contact-form">
-                <form action="{{route('blog.update')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('blog.update',$post)}}" method="post" enctype="multipart/form-data">
                     @method('put');
                     @csrf
                     <label for="title"><span>Title</span></label>

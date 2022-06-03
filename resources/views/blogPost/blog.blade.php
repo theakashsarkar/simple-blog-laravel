@@ -4,6 +4,9 @@
     <!-- main -->
     <main class="container">
         <h2 class="header-title">All Blog Posts</h2>
+        @if (session('status'))
+            <p>{{session('status')}}</p>
+        @endif
         <div class="searchbar">
           <form action="">
             <input type="text" placeholder="Search..." name="search" />
@@ -30,7 +33,9 @@
               @if (auth()->user()->id === $post->user->id)
                 <div class="class-buttons">
                   <a href="{{route('blog.edit',$post)}}">Edit</a>
-                  <form action="" method="">
+                  <form action="{{route('blog.delete',$post)}}" method="post">
+                    @csrf
+                    @method('delete');
                     <input type="submit" value="Delete">
                   </form>
                 </div>    
