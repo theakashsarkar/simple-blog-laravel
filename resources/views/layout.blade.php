@@ -22,7 +22,7 @@
       <!-- sidebar -->
       <div class="sidebar">
         <span class="closeButton">&times;</span>
-        <p class="brand-title"><a href="">Alphayo Blog</a></p>
+        <p class="brand-title"><a href="">Akash Blog</a></p>
 
         <div class="side-links">
           <ul>

@@ -109,7 +109,7 @@ class BlogController extends Controller
         $post->save();
         return redirect()->back()->with('status','post edit successfully');
     }
-    public function delete(Post $post)
+    public function destroy(Post $post)
     {
         $post->delete();
         return redirect()->back()->with('status','Post delete successfully');
