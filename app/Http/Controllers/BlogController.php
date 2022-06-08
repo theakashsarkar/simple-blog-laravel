@@ -15,10 +15,12 @@ class BlogController extends Controller
     }
     public function index(Request $request)
     {
-        if($request->search)
+        $search = $request->input('search');
+        if($search)
         {
-            $posts = Post::where('title' , 'like' , '%' . $request->search . '%' )
-            ->orWhere('body','like', '%' . $request->serach . '%')->latest()->get();
+            $posts = Post::query()
+            ->where('title' , 'LIKE' , "%{$search}%")
+            ->orWhere('body','LIKE', "%{$search}%")->latest()->get();
         }
         else
         {
